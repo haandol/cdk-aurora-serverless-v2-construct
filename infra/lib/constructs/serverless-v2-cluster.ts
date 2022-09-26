@@ -28,6 +28,7 @@ export class ServerlessV2PostgresCluster extends Construct {
       engine: rds.DatabaseClusterEngine.auroraPostgres({
         version: rds.AuroraPostgresEngineVersion.VER_14_3,
       }),
+      storageEncrypted: true,
       instances: props.cluster.instanceCount,
       instanceProps: {
         instanceType: new ec2.InstanceType('serverless'),
