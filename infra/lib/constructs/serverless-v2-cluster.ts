@@ -40,6 +40,7 @@ export class ServerlessV2PostgresCluster extends Construct {
       cloudwatchLogsRetention: logs.RetentionDays.SIX_MONTHS,
       removalPolicy: RemovalPolicy.DESTROY,
     });
+    cluster.addRotationSingleUser();
 
     // Declare the configuration
     const customResourceAwsSdkCall: customResources.AwsSdkCall = {
