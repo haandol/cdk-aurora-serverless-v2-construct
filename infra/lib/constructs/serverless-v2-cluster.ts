@@ -40,6 +40,7 @@ export class ServerlessV2PostgresCluster extends Construct {
       cloudwatchLogsRetention: logs.RetentionDays.SIX_MONTHS,
       removalPolicy: RemovalPolicy.DESTROY,
     });
+    // TODO: use multi user rotation for HA production system
     cluster.addRotationSingleUser();
 
     // Declare the configuration
