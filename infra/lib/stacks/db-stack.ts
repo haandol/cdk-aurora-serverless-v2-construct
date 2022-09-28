@@ -15,7 +15,7 @@ export class DbStack extends Stack {
       vpcId: props.vpcId,
     });
     const securityGroup = new ec2.SecurityGroup(this, `SecurityGroup`, { vpc });
-    securityGroup.connections.allowInternally(ec2.Port.tcp(5432));
+    securityGroup.connections.allowInternally(ec2.Port.tcp(3306));
 
     new ServerlessV2MysqlCluster(this, `ServerlessV2MysqlCluster`, {
       vpc,
