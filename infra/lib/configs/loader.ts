@@ -10,6 +10,7 @@ const schema = joi
   .object({
     AWS_ACCOUNT_ID: joi.string().required(),
     AWS_REGION: joi.string().required(),
+    DEFAULT_DATABASE_NAME: joi.string().required(),
     VPC_ID: joi.string().required(),
     STAGE: joi.string().valid('Dev', 'Prod').required(),
     NS: joi.string().required(),
@@ -27,6 +28,7 @@ export const Config = {
     AccountId: envVars.AWS_ACCOUNT_ID,
     Region: envVars.AWS_REGION,
   },
+  DefaultDatabaseName: envVars.DEFAULT_DATABASE_NAME,
   VpcId: envVars.VPC_ID,
   Stage: envVars.STAGE,
   Ns: `${envVars.NS}${envVars.STAGE}`,

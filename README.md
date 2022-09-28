@@ -31,6 +31,7 @@ $ npm i
 open [**infra/env/dev.env**](/infra/env/dev.env) and fill the blow fields
 
 - `VPC_ID`: vpc id
+- `DEFAULT_DATABASE_NAME`: database name
 - `AWS_ACCOUNT_ID`: 12 digit account id
 - `AWS_REGION`: e.g. ap-northeast-2
 

@@ -5,6 +5,7 @@ import { ServerlessV2MysqlCluster } from '../constructs/serverless-v2-mysql-clus
 
 interface IProps extends StackProps {
   vpcId: string;
+  defaultDatabaseName: string;
 }
 
 export class DbStack extends Stack {
@@ -27,6 +28,7 @@ export class DbStack extends Stack {
           MinCapacity: 0.5,
           MaxCapacity: 5,
         },
+        defaultDatabaseName: props.defaultDatabaseName,
       },
     });
   }

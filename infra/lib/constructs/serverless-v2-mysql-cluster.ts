@@ -15,6 +15,7 @@ interface IProps {
       MinCapacity: number;
       MaxCapacity: number;
     };
+    defaultDatabaseName: string;
   };
 }
 
@@ -35,6 +36,7 @@ export class ServerlessV2MysqlCluster extends Construct {
         securityGroups: [props.securityGroup],
         vpc: props.vpc,
       },
+      defaultDatabaseName: props.cluster.defaultDatabaseName,
       credentials: rds.Credentials.fromUsername(props.cluster.username),
       cloudwatchLogsRetention: logs.RetentionDays.SIX_MONTHS,
       removalPolicy: RemovalPolicy.DESTROY,

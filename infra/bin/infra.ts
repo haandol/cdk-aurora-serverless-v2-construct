@@ -7,6 +7,7 @@ import { Config } from '../lib/configs/loader';
 const app = new cdk.App();
 new DbStack(app, `${Config.Ns}DbStack`, {
   vpcId: Config.VpcId,
+  defaultDatabaseName: Config.DefaultDatabaseName,
   env: {
     account: Config.Aws.AccountId,
     region: Config.Aws.Region,
