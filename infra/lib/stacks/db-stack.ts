@@ -22,7 +22,7 @@ export class DbStack extends Stack {
       securityGroup,
       cluster: {
         instanceCount: 1,
-        username: 'mysql',
+        username: 'haandol',
         scalingConfiguration: {
           MinCapacity: 0.5,
           MaxCapacity: 5,
