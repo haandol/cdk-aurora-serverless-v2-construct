@@ -14,7 +14,7 @@
 $ aws configure
 AWS Access Key ID [****************NCHZ]:
 AWS Secret Access Key [****************AwoB]:
-Default region name [us-east-1]:
+Default region name [ap-northeast-2]:
 Default output format [json]:
 ```
 
@@ -30,10 +30,10 @@ $ npm i
 
 open [**infra/env/dev.env**](/infra/env/dev.env) and fill the blow fields
 
-- `VPC_ID`: vpc id
-- `DEFAULT_DATABASE_NAME`: database name
+- `VPC_ID`: your existing vpc-id. e.g. vpc-xxxxxxxx
 - `AWS_ACCOUNT_ID`: 12 digit account id
 - `AWS_REGION`: e.g. ap-northeast-2
+- `DEFAULT_DATABASE_NAME`: database name
 
 and copy `env/dev.env` file to project root as `.env`
 
