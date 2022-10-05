@@ -29,6 +29,7 @@ export class DbStack extends Stack {
           MaxCapacity: 5,
         },
         defaultDatabaseName: props.defaultDatabaseName,
+        enableBinLog: true,
       },
     });
   }

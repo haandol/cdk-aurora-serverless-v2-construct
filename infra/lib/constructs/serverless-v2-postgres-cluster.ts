@@ -16,6 +16,7 @@ interface IProps {
       MaxCapacity: number;
     };
     defaultDatabaseName: string;
+    enableBinLog: boolean;
   };
 }
 
@@ -24,6 +25,22 @@ export class ServerlessV2PostgresCluster extends Construct {
 
   constructor(scope: Construct, id: string, props: IProps) {
     super(scope, id);
+
+    const parameterGroup = new rds.ParameterGroup(
+      this,
+      'PostgresQLParameterGroup',
+      {
+        engine: rds.DatabaseClusterEngine.auroraPostgres({
+          version: rds.AuroraPostgresEngineVersion.VER_14_3,
+        }),
+      }
+    );
+    if (props.cluster.enableBinLog) {
+      parameterGroup.addParameter('wal_level', 'logical');
+      parameterGroup.addParameter('max_replication_slots', '2');
+      parameterGroup.addParameter('max_wal_senders', '2');
+      parameterGroup.addParameter('wal_sender_timeout', '0');
+    }
 
     const cluster = new rds.DatabaseCluster(this, 'DbCluster', {
       engine: rds.DatabaseClusterEngine.auroraPostgres({
@@ -38,6 +55,7 @@ export class ServerlessV2PostgresCluster extends Construct {
       },
       defaultDatabaseName: props.cluster.defaultDatabaseName,
       credentials: rds.Credentials.fromUsername(props.cluster.username),
+      parameterGroup,
       cloudwatchLogsExports: ['postgresql'],
       cloudwatchLogsRetention: logs.RetentionDays.SIX_MONTHS,
       removalPolicy: RemovalPolicy.DESTROY,

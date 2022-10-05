@@ -16,6 +16,7 @@ interface IProps {
       MaxCapacity: number;
     };
     defaultDatabaseName: string;
+    enableBinLog: boolean;
   };
 }
 
@@ -24,6 +25,17 @@ export class ServerlessV2MysqlCluster extends Construct {
 
   constructor(scope: Construct, id: string, props: IProps) {
     super(scope, id);
+
+    const parameterGroup = new rds.ParameterGroup(this, 'MySQLParameterGroup', {
+      engine: rds.DatabaseClusterEngine.auroraMysql({
+        version: rds.AuroraMysqlEngineVersion.VER_3_02_0,
+      }),
+    });
+    if (props.cluster.enableBinLog) {
+      parameterGroup.addParameter('binlog_format', 'ROW');
+      parameterGroup.addParameter('binlog_row_image', 'FULL');
+      parameterGroup.addParameter('binlog_checksum', 'NONE');
+    }
 
     const cluster = new rds.DatabaseCluster(this, 'DbCluster', {
       engine: rds.DatabaseClusterEngine.auroraMysql({
@@ -38,6 +50,7 @@ export class ServerlessV2MysqlCluster extends Construct {
       },
       defaultDatabaseName: props.cluster.defaultDatabaseName,
       credentials: rds.Credentials.fromUsername(props.cluster.username),
+      parameterGroup,
       cloudwatchLogsRetention: logs.RetentionDays.SIX_MONTHS,
       removalPolicy: RemovalPolicy.DESTROY,
     });
