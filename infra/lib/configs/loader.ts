@@ -4,14 +4,14 @@ import * as dotenv from 'dotenv';
 import { VpcValidator } from './validators';
 
 interface IConfig {
-  Aws: {
+  Ns: string;
+  Stage: string;
+  VpcId: string;
+  DefaultDatabaseName: string;
+  AWS: {
     AccountId: string;
     Region: string;
   };
-  DefaultDatabaseName: string;
-  VpcId: string;
-  Stage: string;
-  Ns: string;
 }
 
 dotenv.config({
@@ -20,12 +20,12 @@ dotenv.config({
 
 const schema = joi
   .object({
+    NS: joi.string().required(),
+    STAGE: joi.string().valid('Dev', 'Prod').required(),
+    VPC_ID: joi.string().custom(VpcValidator).required(),
+    DEFAULT_DATABASE_NAME: joi.string().required(),
     AWS_ACCOUNT_ID: joi.number().required(),
     AWS_REGION: joi.string().required(),
-    DEFAULT_DATABASE_NAME: joi.string().required(),
-    VPC_ID: joi.string().custom(VpcValidator).required(),
-    STAGE: joi.string().valid('Dev', 'Prod').required(),
-    NS: joi.string().required(),
   })
   .unknown();
 
@@ -36,12 +36,12 @@ if (error) {
 }
 
 export const Config: IConfig = {
-  Aws: {
+  Ns: `${envVars.NS}${envVars.STAGE}`,
+  Stage: envVars.STAGE,
+  DefaultDatabaseName: envVars.DEFAULT_DATABASE_NAME,
+  VpcId: envVars.VPC_ID,
+  AWS: {
     AccountId: `${envVars.AWS_ACCOUNT_ID}`,
     Region: envVars.AWS_REGION,
   },
-  DefaultDatabaseName: envVars.DEFAULT_DATABASE_NAME,
-  VpcId: envVars.VPC_ID,
-  Stage: envVars.STAGE,
-  Ns: `${envVars.NS}${envVars.STAGE}`,
 };
